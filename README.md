@@ -7,7 +7,7 @@ chainC = 'B'  # The growing chain (C-terminus)
 chainN = 'A'  # The target chain (N-terminus)
 nResis = 25   # Number of residues in the linker
 
-mol_with_liner = find_linker(structure_file_path, chainC, chainN, nResis)
+mol_with_linker = find_linker(structure_file_path, chainC, chainN, nResis)
 ```
 
 > [!IMPORTANT]
@@ -15,6 +15,14 @@ mol_with_liner = find_linker(structure_file_path, chainC, chainN, nResis)
 > The script requires a complete set of backbone atoms (**N, CA, C, O**) at the terminal residues of the chains being linked. 
 >
 > If your structure has missing terminal atoms, the script will print a termination message. As an example, the file `2I4Q_e.pdb` is provided in the repository; the Oxygen (**O**) atom was manually added to this file to ensure functionality.
+
+### Installation
+Clone the repository to your local machine using Git and install it using PIP:
+```bash
+git clone [https://github.com/YourUsername/protein_linkers.git](https://github.com/YourUsername/protein_linkers.git)
+cd protein_linkers
+pip install -r requirements.txt
+```
 
 ### ⚙️ Parameters
 
