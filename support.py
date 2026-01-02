@@ -413,7 +413,7 @@ def parse_specs(inp_string):
     return sel_ints, sel_strs
     '''
     
-class Ensamble(Body):
+class Ensemble(Body):
   def __init__(self, file_name=None, chain_to_add_patches = False, verbose = False) -> object:
     super().__init__()
     # Descriptor table: one row per atom
@@ -463,7 +463,7 @@ class Ensamble(Body):
       if not chain:
         print(f"Chain to be set as active has to be defined")  
       else:
-        print(f"Chain '{chain}' to be set as active is not in the Ensamble")  
+        print(f"Chain '{chain}' to be set as active is not in the Ensemble")  
 
   def Set_termini(self):
     sub_idxs = self.idxs[self.active_chain] #.dropna(subset=['res_num'])
@@ -678,7 +678,7 @@ class Ensamble(Body):
   def Add_residue(self, resn, chain = '', smer = "NC"):
     if resn not in res_lib:
       res_file_path = os.path.join(base_dir, res_dir, f"{resn}.pdb")
-      res_mol = Ensamble(res_file_path, chain_to_add_patches=True)
+      res_mol = Ensemble(res_file_path, chain_to_add_patches=True)
       if chain:
         pass  
           
@@ -878,7 +878,7 @@ class Ensamble(Body):
         print(f"No atoms found for the chain '{chain}'")
         return None
     else:
-      print(f"Chain '{chain}' not found in Ensamble")
+      print(f"Chain '{chain}' not found in Ensemble")
       return None      
 
   def get_last_resi(self, chain):
@@ -891,7 +891,7 @@ class Ensamble(Body):
         print(f"No atoms found for the chain '{chain}'")
         return None
     else:
-      print(f"Chain '{chain}' not found in Ensamble")
+      print(f"Chain '{chain}' not found in Ensemble")
       return None      
 
   def get_res_idx(self, chain, resi):
@@ -904,7 +904,7 @@ class Ensamble(Body):
         print(f"Reside '{resi}' not found within the chain '{chain}'")
         return None
     else:
-      print(f"Chain '{chain}' not found in Ensamble")
+      print(f"Chain '{chain}' not found in Ensemble")
       return None
     
   def Set_torsion_angle(self, chain, resi, angle, which = "phi"):
@@ -1253,14 +1253,14 @@ class Ensamble(Body):
   #@staticmethod
   def create_from_dm(self, dm, title="Reconstructed from Distance Matrix"):
     """
-    Creates a new Ensamble instance with coordinates reconstructed from 
+    Creates a new Ensemble instance with coordinates reconstructed from 
     the input distance matrix (dm) using Metric Multidimensional Scaling (MDS).
     
     Default 'C' atoms are assigned to the new structure.
 
     :param dm: The NxN Euclidean distance matrix (NumPy array).
-    :param title: The title to assign to the new Ensamble.
-    :return: A new Ensamble instance with reconstructed coordinates, or None on failure.
+    :param title: The title to assign to the new Ensemble.
+    :return: A new Ensemble instance with reconstructed coordinates, or None on failure.
     """
     N_atoms = dm.shape[0]
     try:
@@ -1290,7 +1290,7 @@ class Ensamble(Body):
         self.coors = reconstructed_coords
         self.title = title
         
-        print(f"New Ensamble created with {N_atoms} 'C' atoms from distance matrix.")
+        print(f"New Ensemble created with {N_atoms} 'C' atoms from distance matrix.")
         
     except Exception as e:
         print(f"An unexpected error occurred during MDS reconstruction: {e}")
@@ -1352,10 +1352,10 @@ class Ensamble(Body):
     
     return filtered_dm, selected_indices
 
-  # --- New Ensamble Constructor using the above method ---
+  # --- New Ensemble Constructor using the above method ---
   def create_sparse_from_dm(self, cutoff_distance):
     """
-    Creates a new Ensamble instance containing only the sparse subset of atoms
+    Creates a new Ensemble instance containing only the sparse subset of atoms
     whose mutual distances are greater than cutoff_distance.
     """
     filtered_dm, selected_indices = self.extract_sparse_substructure(cutoff_distance)
@@ -1364,12 +1364,12 @@ class Ensamble(Body):
         return None
 
     # 1. Use the static method for reconstruction
-    # We need to create a new Ensamble instance using the static method
-    #from . import Ensamble # Assuming Ensamble is imported or available via context
-    new_ensemble = Ensamble()
+    # We need to create a new Ensemble instance using the static method
+    #from . import Ensemble # Assuming Ensemble is imported or available via context
+    new_ensemble = Ensemble()
     new_ensemble.create_from_dm(filtered_dm, title=f"Sparse Structure from {self.title} (Cutoff > {cutoff_distance:.2f} A)")
     
-    # 2. Update atom descriptors for the new Ensamble
+    # 2. Update atom descriptors for the new Ensemble
     if new_ensemble:
         # Copy atom data only for the selected indices
         new_ensemble.atoms = self.atoms.iloc[selected_indices].reset_index(drop=True)
@@ -1454,7 +1454,7 @@ def Create_protein(seq, direction = "NC"):
         pr.Add_residue(add_res, direction)
       else:
         res_file_path = os.path.join(base_dir, res_dir, f"{add_res}.pdb")
-        pr = Ensamble(res_file_path, add_patches=True)
+        pr = Ensemble(res_file_path, add_patches=True)
         
       growing_seq_display += aan
       print(f"\r{growing_seq_display}", end="")
@@ -1467,4 +1467,4 @@ def Create_protein(seq, direction = "NC"):
   
 patch_filename = "for_patches.pdb"
 patch_path = os.path.join(base_dir, lib_dir, patch_filename)
-patchMol = Ensamble(patch_path, chain_to_add_patches = True)
+patchMol = Ensemble(patch_path, chain_to_add_patches = True)

@@ -1,11 +1,11 @@
 import sys, os, re
 import numpy as np
 
-from support import Ensamble, Sphere
+from support import Ensemble, Sphere
 from curves import Curve
 
 def find_linker(inp_structure_path, cChain, nChain, nRes = 15, level = 1, incr = 0.1, colThr = 0.60):
-  tmol = Ensamble(inp_structure_path)
+  tmol = Ensemble(inp_structure_path)
   if any(v is None for v in tmol.idxs[cChain].iloc[-1]['bb_idxs']):
     print(f"Last residue in the growing chain '{cChain}' is not fully defined. Terminating...")    
     return None
