@@ -72,6 +72,6 @@ chainC, chainN = 'B', '2'
 nResis = 25
 out_file = structure_file_path.replace(".pdb", f"_{chainC}_{chainN}_linker.pdb")
 
-mol_with_liner = find_linker(structure_file_path, chainC, chainN, nResis, level = 2, colThr = 1.20)
-if mol_with_liner:
-  mol_with_liner.Write_pdb(out_file)
+mol_with_linker = find_linker(structure_file_path, chainC, chainN, nResis, level = 2, colThr = 1.20)
+if mol_with_linker:
+  mol_with_linker.Write_pdb(out_file)
